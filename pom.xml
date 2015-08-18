@@ -19,9 +19,9 @@
 	</dependency>
 	
 	<dependency>
-			<groupId>algo2-grupo3</groupId>
-	<artifactId>tp-dieta</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+		<groupId>algo2-grupo3</groupId>
+		<artifactId>tp-dieta</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
 	</dependency>
 		
 	</dependencies>
