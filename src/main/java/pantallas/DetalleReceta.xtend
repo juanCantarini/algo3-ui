@@ -1,0 +1,5 @@
+package pantallas
+
+class DetalleReceta {
+	
+}
