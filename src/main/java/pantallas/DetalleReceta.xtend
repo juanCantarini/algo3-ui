@@ -14,22 +14,9 @@ import org.uqbar.arena.windows.MainWindow
 
 class DetalleReceta extends MainWindow<Receta>{
 		
-		Ingrediente arroz = new IngredienteBuilder("arroz").cantidad(500).build()
-		Ingrediente azafran = new IngredienteBuilder("azafran").cantidad(2).build()
-		Receta polloAzafran = new RecetaBuilder("polloAzafran").calorias(100).autor("Daniel").dificultad("Mediana").procesoPreparacion("Hervir el arroz con azafran y agregar el pollo previamente salteado").temporada("Invierno").agregar(arroz).agregar(azafran).build()
-		
 		new() {
-			super(new Receta)
-		}
-		
-		Receta = polloAzafran
-		
-		def void init() {
-		
-		arroz = new IngredienteBuilder("arroz").cantidad(500).build()
-		azafran = new IngredienteBuilder("azafran").cantidad(2).build()
-		polloAzafran = new RecetaBuilder("polloAzafran").calorias(100).autor("Daniel").dificultad("Mediana").procesoPreparacion("Hervir el arroz con azafran y agregar el pollo previamente salteado").temporada("Invierno").agregar(arroz).agregar(azafran).build()
-		
+			super(new RecetaBuilder("polloAzafran").calorias(100).autor("Daniel").dificultad("Mediana").procesoPreparacion("Hervir el arroz con azafran y agregar el pollo previamente salteado").temporada("Invierno").agregar(new IngredienteBuilder("azafran").cantidad(2).build()).agregar(new IngredienteBuilder("arroz").cantidad(500).build()).build()
+)
 		}
 		
 		override createContents(Panel mainPanel) {
