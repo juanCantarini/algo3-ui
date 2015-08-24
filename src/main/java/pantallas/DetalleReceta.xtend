@@ -4,9 +4,14 @@ import ar.tp.dieta.CondimentoBuilder
 import ar.tp.dieta.IngredienteBuilder
 import ar.tp.dieta.Receta
 import ar.tp.dieta.RecetaBuilder
+import ar.tp.dieta.RecetarioPublico
+import ar.tp.dieta.RutinaActiva
+import ar.tp.dieta.Usuario
+import ar.tp.dieta.UsuarioBuilder
 import org.uqbar.arena.layout.ColumnLayout
 import org.uqbar.arena.layout.HorizontalLayout
 import org.uqbar.arena.layout.VerticalLayout
+import org.uqbar.arena.widgets.Button
 import org.uqbar.arena.widgets.CheckBox
 import org.uqbar.arena.widgets.Label
 import org.uqbar.arena.widgets.List
@@ -18,27 +23,32 @@ import org.uqbar.arena.windows.MainWindow
 class DetalleReceta extends MainWindow<Receta>{
 		
 		new() {
-			super(new RecetaBuilder("polloAzafran").calorias(500).autor("Daniel").dificultad("Mediana").procesoPreparacion("Hervir el arroz con azafran y agregar el pollo previamente salteado").temporada("Invierno").agregarCondimento(new CondimentoBuilder("azafran").cantidad(2).build()).agregarIngrediente(new IngredienteBuilder("carne").cantidad(500).build()).build()
-)
+			super(new RecetaBuilder("polloAzafran").calorias(500).autor("Daniel").dificultad("Mediana").procesoPreparacion("Hervir el arroz con azafran y agregar el pollo previamente salteado").temporada("Invierno").agregarCondimento(new CondimentoBuilder("azafran").cantidad(2).build()).agregarIngrediente(new IngredienteBuilder("carne").cantidad(50).build()).build())
 		}
 		
 		override createContents(Panel mainPanel) {
 			title = "Detalle de receta"
 			mainPanel.layout = new VerticalLayout
+			val Usuario usuario = construirUsuario()
+			
 			
 			//PANELES
 			
 			val panelNombreReceta = new Panel(mainPanel)
+			
 			val panelSuperior = new Panel(mainPanel)
 			panelSuperior.layout = new HorizontalLayout
+			
+			val panelInfo = new Panel(mainPanel)
+			panelInfo.layout = new ColumnLayout(2)
+			
 			val panelMedio = new Panel(mainPanel)
 			panelMedio.layout = new ColumnLayout(2)
-			val panelTablas = new Panel(mainPanel)
-			panelTablas.layout = new HorizontalLayout
-			val panelAuxiliar = new Panel(panelTablas)
-			panelAuxiliar.layout = new VerticalLayout
-			val panelFavorito = new Panel(mainPanel)
-			panelFavorito.layout = new HorizontalLayout
+			
+			val panelIzquierdo = new Panel(panelMedio)
+			
+			val panelDerecho = new Panel(panelMedio)
+			
 			val panelProceso = new Panel(mainPanel)
 			
 			//CONTENIDO DE LOS PANELES
@@ -53,28 +63,40 @@ class DetalleReceta extends MainWindow<Receta>{
 			
 			//PANEL MEDIO - DIFICULTAD, TEMPORADA E INGREDIENTES
 			
-			new Label(panelMedio).text = "Dificultad"
-			new Label(panelMedio).text = "Temporada"
-			new Label(panelMedio).bindValueToProperty("dificultadDePreparacion")
-			new Label(panelMedio).bindValueToProperty("temporadaALaQueCorresponde")
-			new Label(panelMedio).text = "Ingredientes"
-			new Label(panelMedio).text = "Condimentos"
+			new Label(panelInfo).text = "Dificultad"
+			new Label(panelInfo).text = "Temporada"
+			new Label(panelInfo).bindValueToProperty("dificultadDePreparacion")
+			new Label(panelInfo).bindValueToProperty("temporadaALaQueCorresponde")
+			new Label(panelInfo).text = "Ingredientes"
+			new Label(panelInfo).text = "Condimentos"
 			
-			grillaIngredientes(panelTablas)
-			new List(panelAuxiliar).bindItemsToProperty("condimentos")			
-			new Label(panelAuxiliar).text = "Condiciones Preexistentes"
-			new List(panelAuxiliar).bindItemsToProperty("condicionesPreexistentes")
+			grillaIngredientes(panelIzquierdo)
+			
+			new List(panelDerecho).bindItemsToProperty("condimentos")			
+			new Label(panelDerecho).text = "Condiciones Preexistentes"
+			new List(panelDerecho).bindItemsToProperty("condicionesPreexistentes")
 			
 			//PANEL FAVORITO - CHECKBOX FAVORITO
 			
-			new CheckBox(panelFavorito)
-			new Label(panelFavorito).text = "Favorita        "
+			val panelFavo = new Panel(panelIzquierdo)
+			panelFavo.layout = new HorizontalLayout
+			
+			new CheckBox(panelFavo) => [
+				bindEnabledToProperty("condimentos")
+			]
+			new Label(panelFavo).text = "Favorita"
 			
 			
 			//PANEL PROCESO - PROCEDIMIENTO DE LA RECETA
 			
+			new Label(panelProceso).text = "usuario.nombre"
 			new Label(panelProceso).text = "Proceso de preparacion"
 			new Label(panelProceso).bindValueToProperty("procesoDePreparacion")			
+			new Button(panelProceso) => [
+				caption = "Volver"
+				//onClick [ | ]			
+			]
+			
 			
 		}
 		
@@ -93,6 +115,15 @@ class DetalleReceta extends MainWindow<Receta>{
 				title = "Cantidad"
 				bindContentsToProperty("cantidad")
 			]
+		}
+		
+		def Usuario construirUsuario(){
+			val Usuario usuario= new UsuarioBuilder("Daniel").peso(70.4).altura(1.83).fechaNacimiento(1992, 6, 4).sexo("M").rutina(new RutinaActiva => [
+			setTiempoDeEjercicio(90)]).preferencia("carne").preferencia("pescado").email("usuariosincondicion@mail.com").build()
+			val recetarioPublico = new RecetarioPublico
+			recetarioPublico.recetas.add(modelObject)
+			usuario.recetario = recetarioPublico
+			return usuario
 		}
 		
 		def static void main(String[] args) {
