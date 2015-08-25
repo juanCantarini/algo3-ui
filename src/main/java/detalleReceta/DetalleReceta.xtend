@@ -1,13 +1,6 @@
-package pantallas
+package detalleReceta
 
-import ar.tp.dieta.CondimentoBuilder
-import ar.tp.dieta.IngredienteBuilder
 import ar.tp.dieta.Receta
-import ar.tp.dieta.RecetaBuilder
-import ar.tp.dieta.RecetarioPublico
-import ar.tp.dieta.RutinaActiva
-import ar.tp.dieta.Usuario
-import ar.tp.dieta.UsuarioBuilder
 import org.uqbar.arena.layout.ColumnLayout
 import org.uqbar.arena.layout.HorizontalLayout
 import org.uqbar.arena.layout.VerticalLayout
