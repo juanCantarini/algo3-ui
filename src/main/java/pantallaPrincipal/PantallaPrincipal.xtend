@@ -8,10 +8,10 @@ import org.uqbar.arena.widgets.tables.Column
 import org.uqbar.arena.widgets.tables.Table
 import org.uqbar.arena.windows.MainWindow
 
-class PantallaPrincipal extends MainWindow<DetalleRecetaAplicationModel>{
+class PantallaPrincipal extends MainWindow<PantallaPrincipalAplicationModel>{
 	
 	new(){
-		super (new DetalleRecetaAplicationModel)
+		super (new PantallaPrincipalAplicationModel)
 	}
 	
 	def static void main(String[] args) {
@@ -22,35 +22,35 @@ class PantallaPrincipal extends MainWindow<DetalleRecetaAplicationModel>{
 		title = "Bienvenido a ¿Que comemos?"
 		mainPanel.layout = new VerticalLayout
 		
-		new Label(mainPanel).text = "Estas fueron sus ultimas consultas"
+		new Label(mainPanel).bindValueToProperty("mensaje")// = "Estas fueron sus ultimas consultas"
 		grillaConsulta(mainPanel)
 	}
 	
 	
 	def grillaConsulta(Panel mainPanel){
-			val grilla = new Table(mainPanel, typeof(DetalleRecetaAplicationModel)) => [
+			val grilla = new Table(mainPanel, typeof(Receta)) => [
 				width = 400
 				height = 1000
-				bindItemsToProperty("receta")
+				bindItemsToProperty("recetas")
 			]
-			new Column<DetalleRecetaAplicationModel>(grilla) => [
+			new Column<Receta>(grilla) => [
 				title = "Nombre"
 				bindContentsToProperty("nombreDeLaReceta")
 			]
 			
-			new Column<DetalleRecetaAplicationModel>(grilla) => [
+			new Column<Receta>(grilla) => [
 				title = "Calorias"
 				bindContentsToProperty("calorias")
 			]
 			
-			new Column<DetalleRecetaAplicationModel>(grilla) => [
+			new Column<Receta>(grilla) => [
 				title = "Dificultad"
 				bindContentsToProperty("dificultadDePreparacion")
 			]
 			
-			new Column<DetalleRecetaAplicationModel>(grilla) => [
+			new Column<Receta>(grilla) => [
 				title = "Temporada"
-				bindContentsToProperty("temporada")
+				bindContentsToProperty("temporadaALaQueCorresponde")
 			]
 		}
 		
