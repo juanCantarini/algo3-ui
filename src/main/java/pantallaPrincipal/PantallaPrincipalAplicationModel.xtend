@@ -1,5 +1,6 @@
 package pantallaPrincipal
 
+import ar.tp.dieta.Accion2
 import ar.tp.dieta.Busqueda
 import ar.tp.dieta.CondicionVegano
 import ar.tp.dieta.CondimentoBuilder
@@ -20,6 +21,8 @@ import org.uqbar.commons.utils.Observable
 @Accessors
 @Observable
 class PantallaPrincipalAplicationModel extends TestRepositorio{
+	
+	Accion2 accion
 	List<Receta> recetas = new ArrayList<Receta>
 	List<Usuario> usuarios = new ArrayList<Usuario>
 	RecetarioPublico recetario = new RecetarioPublico
@@ -64,6 +67,7 @@ class PantallaPrincipalAplicationModel extends TestRepositorio{
 		usuarios.add(usuarioSinCondicion)
 		usuarios.add(usuarioCeliaco)
 		usuarios.add(usuarioDiabetico)*/
+		usuarioVegano.accion2 = accion
 	}
 	
 	def getRecetas(){
@@ -84,8 +88,9 @@ class PantallaPrincipalAplicationModel extends TestRepositorio{
 				return(usuarios.get(0).busquedaFiltrada())
 			}else{
 				mensaje = "Estas son las recetas mas consultadas"
-				//return()
+				usuarios.get(0).busquedaFiltrada()
+				return(usuarios.get(0).accion2.getRecetasFinales)
+			}
 		}
 	}
 }
-	}
