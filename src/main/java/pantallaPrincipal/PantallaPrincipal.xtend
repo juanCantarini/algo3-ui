@@ -30,25 +30,29 @@ class PantallaPrincipal extends MainWindow<PantallaPrincipalAplicationModel>{
 	def grillaConsulta(Panel mainPanel){
 			val grilla = new Table(mainPanel, typeof(Receta)) => [
 				width = 400
-				height = 1000
+				height = 2000
 				bindItemsToProperty("recetas")
 			]
 			new Column<Receta>(grilla) => [
+				fixedSize = 200
 				title = "Nombre"
 				bindContentsToProperty("nombreDeLaReceta")
 			]
 			
 			new Column<Receta>(grilla) => [
+				fixedSize = 200
 				title = "Calorias"
 				bindContentsToProperty("calorias")
 			]
 			
 			new Column<Receta>(grilla) => [
+				fixedSize = 200
 				title = "Dificultad"
 				bindContentsToProperty("dificultadDePreparacion")
 			]
 			
 			new Column<Receta>(grilla) => [
+				fixedSize = 200
 				title = "Temporada"
 				bindContentsToProperty("temporadaALaQueCorresponde")
 			]

@@ -4,8 +4,10 @@ import ar.tp.dieta.Accion2
 import ar.tp.dieta.Busqueda
 import ar.tp.dieta.CondicionVegano
 import ar.tp.dieta.CondimentoBuilder
+import ar.tp.dieta.FiltroPorGustos
 import ar.tp.dieta.FiltroPorIngredienteCaro
 import ar.tp.dieta.IngredienteBuilder
+import ar.tp.dieta.PosteriorBusquedaOrdenadoCalorias
 import ar.tp.dieta.Receta
 import ar.tp.dieta.RecetaBuilder
 import ar.tp.dieta.RecetarioPublico
@@ -22,13 +24,19 @@ import org.uqbar.commons.utils.Observable
 @Observable
 class PantallaPrincipalAplicationModel extends TestRepositorio{
 	
-	Accion2 accion
+	Accion2 accion = new Accion2
 	List<Receta> recetas = new ArrayList<Receta>
 	List<Usuario> usuarios = new ArrayList<Usuario>
 	RecetarioPublico recetario = new RecetarioPublico
 	String mensaje
 	Busqueda busqueda1 = new Busqueda => [
 			agregarFiltro(new FiltroPorIngredienteCaro)
+	]
+	Busqueda busqueda2 = new Busqueda => [
+			agregarFiltro(new PosteriorBusquedaOrdenadoCalorias)
+	]
+	Busqueda busqueda3 = new Busqueda => [
+			agregarFiltro(new FiltroPorGustos)
 	]
 	
 	
@@ -47,7 +55,6 @@ class PantallaPrincipalAplicationModel extends TestRepositorio{
 		]
 		
 		usuarioVegano = new UsuarioBuilder("Miguel").peso(70.5).altura(1.73).fechaNacimiento(1989, 6, 28).sexo("M").rutina(basket).condicion(new CondicionVegano).preferencia("fruta").email("soyvegano@edrans.com").build()
-		usuarioVegano.agregarBusqueda(busqueda1)
 		
 		recetario.agregarReceta(arrozConPollo)
 		recetario.agregarReceta(fideosConManteca)
@@ -68,6 +75,7 @@ class PantallaPrincipalAplicationModel extends TestRepositorio{
 		usuarios.add(usuarioCeliaco)
 		usuarios.add(usuarioDiabetico)*/
 		usuarioVegano.accion2 = accion
+		usuarioVegano.comidasQueNoMeGustan.add("arroz")
 	}
 	
 	def getRecetas(){
@@ -83,14 +91,20 @@ class PantallaPrincipalAplicationModel extends TestRepositorio{
 			mensaje = "Estas son sus recetas favoritas"
 			return(usuarios.get(0).recetasFavoritas2)
 		}else{
-			if(!usuarios.get(0).misBusquedas.isEmpty){
-				mensaje = "Estas es el resultado de su ultima consulta"
+			/*if(!usuarios.get(0).misBusquedas.isEmpty){
+				mensaje = "Este es el resultado de su ultima consulta"
 				return(usuarios.get(0).busquedaFiltrada())
-			}else{
+			}else{*/
 				mensaje = "Estas son las recetas mas consultadas"
+				//usuarioVegano.agregarBusqueda(busqueda1)
+				//usuarios.get(0).busquedaFiltrada()
+				//usuarioVegano.removerBusqueda(busqueda1)
+				usuarioVegano.agregarBusqueda(busqueda2)
+				usuarios.get(0).busquedaFiltrada()
+				usuarioVegano.removerBusqueda(busqueda2)
+				usuarioVegano.agregarBusqueda(busqueda3)
 				usuarios.get(0).busquedaFiltrada()
 				return(usuarios.get(0).accion2.getRecetasFinales)
 			}
 		}
 	}
-}
