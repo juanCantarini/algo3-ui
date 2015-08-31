@@ -17,27 +17,9 @@ class DetalleRecetaAplicationModel {
 	Usuario usuario
 	Receta receta
 	
-	new () {
-		receta = new RecetaBuilder("polloAzafran")
-		.calorias(500).autor("Daniel")
-		.dificultad("Mediana")
-		.procesoPreparacion("Hervir el arroz con azafran y agregar el pollo previamente salteado")
-		.temporada("Invierno")
-		.agregarCondimento(new CondimentoBuilder("azafran").cantidad(2).build())
-		.agregarIngrediente(new IngredienteBuilder("carne").cantidad(50).build())
-		.build()
-		
-		usuario = new UsuarioBuilder("Daniel")
-		.peso(70.4)
-		.altura(1.83)
-		.fechaNacimiento(1992, 6, 4)
-		.sexo("M")
-		.rutina(new RutinaActiva => [
-			setTiempoDeEjercicio(90)])
-		.preferencia("carne")
-		.preferencia("pescado")
-		.email("usuariosincondicion@mail.com")
-		.build()
+	new (Receta recetaSeleccionada, Usuario usuarioSeleccionado) {
+		receta = recetaSeleccionada
+		usuario = usuarioSeleccionado
 	} 
 	
 	def boolean getFavorita() {

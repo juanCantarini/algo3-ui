@@ -1,7 +1,11 @@
 package pantallaPrincipal
 
 import ar.tp.dieta.Receta
+import detalleReceta.DetalleReceta
+import org.uqbar.arena.bindings.NotNullObservable
+import org.uqbar.arena.layout.HorizontalLayout
 import org.uqbar.arena.layout.VerticalLayout
+import org.uqbar.arena.widgets.Button
 import org.uqbar.arena.widgets.Label
 import org.uqbar.arena.widgets.Panel
 import org.uqbar.arena.widgets.tables.Column
@@ -19,11 +23,27 @@ class PantallaPrincipal extends MainWindow<PantallaPrincipalAplicationModel>{
 	}
 	
 	override createContents(Panel mainPanel){
+		
+		val elementSelected = new NotNullObservable("recetaSeleccionada")
+		
 		title = "Bienvenido a ¿Que comemos?"
 		mainPanel.layout = new VerticalLayout
 		
 		new Label(mainPanel).bindValueToProperty("mensaje")// = "Estas fueron sus ultimas consultas"
 		grillaConsulta(mainPanel)
+		val PanelBotonera = new Panel(mainPanel)
+		PanelBotonera.layout = new HorizontalLayout
+		new Button(PanelBotonera) => [
+			caption = "Ver"
+			onClick [ | this.verReceta()]
+			bindEnabled(elementSelected)	
+		]
+		
+		new Button(PanelBotonera) => [
+			caption = "Favorita"
+			onClick [ | modelObject.agregarORemoverRecetaFavorita]
+			bindEnabled(elementSelected)
+		] 
 	}
 	
 	
@@ -32,6 +52,7 @@ class PantallaPrincipal extends MainWindow<PantallaPrincipalAplicationModel>{
 				width = 400
 				height = 2000
 				bindItemsToProperty("recetas")
+				bindValueToProperty("recetaSeleccionada")
 			]
 			new Column<Receta>(grilla) => [
 				fixedSize = 200
@@ -58,5 +79,7 @@ class PantallaPrincipal extends MainWindow<PantallaPrincipalAplicationModel>{
 			]
 		}
 		
-		
+		def void verReceta() {
+			(new DetalleReceta(this, modelObject.recetaSeleccionada, modelObject.usuarios.get(0))).open
+	}
 }

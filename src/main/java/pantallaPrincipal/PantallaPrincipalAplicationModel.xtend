@@ -24,6 +24,7 @@ import org.uqbar.commons.utils.Observable
 @Observable
 class PantallaPrincipalAplicationModel extends TestRepositorio{
 	
+	Receta recetaSeleccionada
 	Accion2 accion = new Accion2
 	List<Receta> recetas = new ArrayList<Receta>
 	List<Usuario> usuarios = new ArrayList<Usuario>
@@ -107,4 +108,12 @@ class PantallaPrincipalAplicationModel extends TestRepositorio{
 				return(usuarios.get(0).accion2.getRecetasFinales)
 			}
 		}
-	}
+		
+		def void agregarORemoverRecetaFavorita(){
+			if(usuarios.get(0).recetasFavoritas2.contains(recetaSeleccionada)){
+				usuarios.get(0).eliminarRecetaFavorita(recetaSeleccionada)
+			} else{ 
+				usuarios.get(0).agregarRecetaFavorita(recetaSeleccionada)
+				}
+		}
+}

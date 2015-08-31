@@ -1,6 +1,8 @@
 package detalleReceta
 
 import ar.tp.dieta.Receta
+import ar.tp.dieta.Usuario
+import org.uqbar.arena.aop.windows.TransactionalDialog
 import org.uqbar.arena.layout.ColumnLayout
 import org.uqbar.arena.layout.HorizontalLayout
 import org.uqbar.arena.layout.VerticalLayout
@@ -11,17 +13,20 @@ import org.uqbar.arena.widgets.List
 import org.uqbar.arena.widgets.Panel
 import org.uqbar.arena.widgets.tables.Column
 import org.uqbar.arena.widgets.tables.Table
-import org.uqbar.arena.windows.MainWindow
+import org.uqbar.arena.windows.WindowOwner
 
-class DetalleReceta extends MainWindow<DetalleRecetaAplicationModel>{
+class DetalleReceta extends TransactionalDialog<DetalleRecetaAplicationModel>{
 		
-		new() {
-			super(new DetalleRecetaAplicationModel())
-//			super(new RecetaBuilder("polloAzafran").calorias(500).autor("Daniel").dificultad("Mediana").procesoPreparacion("Hervir el arroz con azafran y agregar el pollo previamente salteado").temporada("Invierno").agregarCondimento(new CondimentoBuilder("azafran").cantidad(2).build()).agregarIngrediente(new IngredienteBuilder("carne").cantidad(50).build()).build())
+		new(WindowOwner owner, Receta receta, Usuario usuario) {
+			super(owner, new DetalleRecetaAplicationModel(receta,usuario))
 		}
 		
-		override createContents(Panel mainPanel) {
-			title = "Detalle de receta"
+		def defaultTitle() {
+			"Detalle receta"
+		}
+		
+		override createFormPanel(Panel mainPanel) {
+			
 			mainPanel.layout = new VerticalLayout
 			//val Usuario usuario = construirUsuario()
 			
@@ -91,7 +96,7 @@ class DetalleReceta extends MainWindow<DetalleRecetaAplicationModel>{
 				caption = "Volver"
 				//onClick [ | ]			
 			]
-			
+				super.executeTask()
 			
 		}
 		
@@ -121,8 +126,10 @@ class DetalleReceta extends MainWindow<DetalleRecetaAplicationModel>{
 			return usuario
 		}*/
 		
-		def static void main(String[] args) {
+		/*def static void main(String[] args) {
 			new DetalleReceta().startApplication
-		}
+		}*/
+		
+	
 		
 }
