@@ -23,8 +23,7 @@ class DetalleRecetaAplicationModel {
 	} 
 	
 	def boolean getFavorita() {
-		usuario.agregarRecetaFavorita(receta.nombreDeLaReceta)
-		usuario.contenesEstaRecetaEnFavs(receta.nombreDeLaReceta)
+		usuario.contenesEstaRecetaEnFavs(receta)
 	}
 	
 	def boolean getEditable() {
