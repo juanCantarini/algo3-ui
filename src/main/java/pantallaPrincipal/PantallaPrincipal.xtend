@@ -2,13 +2,13 @@ package pantallaPrincipal
 
 import ar.tp.dieta.Receta
 import detalleReceta.DetalleReceta
-import java.awt.Checkbox
 import java.awt.Color
 import org.uqbar.arena.bindings.NotNullObservable
 import org.uqbar.arena.layout.ColumnLayout
 import org.uqbar.arena.layout.HorizontalLayout
 import org.uqbar.arena.layout.VerticalLayout
 import org.uqbar.arena.widgets.Button
+import org.uqbar.arena.widgets.CheckBox
 import org.uqbar.arena.widgets.Label
 import org.uqbar.arena.widgets.Panel
 import org.uqbar.arena.widgets.Selector
@@ -65,16 +65,27 @@ class PantallaPrincipal extends MainWindow<PantallaPrincipalAplicationModel>{
 			bindValueToProperty("busquedaUsuario.temporadas")
 		]
 		
-		val PanelCheckboxFiltroUsuario = new Panel(PanelDerecho)
-		PanelCheckboxFiltroUsuario.layout = new HorizontalLayout
+		val PanelFiltroUsuario = new Panel(PanelDerecho)
+		PanelFiltroUsuario.layout = new HorizontalLayout
 		
-		new Checkbox(PanelCheckboxFiltroUsuario) => [
-			bindValueToProperty("AplicarFiltro")	
+		new CheckBox(PanelFiltroUsuario) => [
+			bindValueToProperty("busquedaUsuario.aplicarFiltro")	
 		]
 		
-		new Label(PanelCheckboxFiltroUsuario).text = "Aplicar filtros del perfil de usuario"
+		new Label(PanelFiltroUsuario).text = "Aplicar filtros del perfil de usuario"
 		
+		val PanelBotoneraBusqueda = new Panel(PanelDerecho)
+		PanelBotoneraBusqueda.layout = new HorizontalLayout	
 		
+		new Button(PanelBotoneraBusqueda) => [
+			caption = "Buscar"
+			onClick [ | modelObject.filtrar]
+		]
+		
+		new Button(PanelBotoneraBusqueda) => [
+			caption = "Volver"
+		]
+				
 		new Label(mainPanel).bindValueToProperty("mensaje")// = "Estas fueron sus ultimas consultas"
 		grillaConsulta(mainPanel)
 		val PanelBotonera = new Panel(mainPanel)

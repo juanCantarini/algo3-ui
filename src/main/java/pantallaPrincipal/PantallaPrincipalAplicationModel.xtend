@@ -120,4 +120,8 @@ class PantallaPrincipalAplicationModel extends TestRepositorio{
 				usuarios.get(0).agregarRecetaFavorita(recetaSeleccionada)
 			}
 	}
+	
+	def filtrar(){
+		busquedaUsuario.filtrar(usuarios.get(0).recetasQuePuedoVer)
+	}
 }
