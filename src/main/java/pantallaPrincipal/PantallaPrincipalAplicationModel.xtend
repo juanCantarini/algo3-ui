@@ -57,7 +57,7 @@ class PantallaPrincipalAplicationModel extends TestRepositorio{
 		
 		usuarioVegano = new UsuarioBuilder("Miguel").peso(70.5).altura(1.73).fechaNacimiento(1989, 6, 28).sexo("M").rutina(basket).condicion(new CondicionVegano).preferencia("fruta").email("soyvegano@edrans.com").build()
 		
-		recetario.agregarReceta(arrozConPollo)
+		usuarioVegano.misRecetas.add(arrozConPollo)
 		recetario.agregarReceta(fideosConManteca)
 		recetario.agregarReceta(lomoMostaza)
 		recetario.agregarReceta(gelatinaFrambuesa)
@@ -92,14 +92,14 @@ class PantallaPrincipalAplicationModel extends TestRepositorio{
 			mensaje = "Estas son sus recetas favoritas"
 			return(usuarios.get(0).recetasFavoritas2)
 		}else{
-			/*if(!usuarios.get(0).misBusquedas.isEmpty){
+			if(!usuarios.get(0).misBusquedas.isEmpty){
 				mensaje = "Este es el resultado de su ultima consulta"
 				return(usuarios.get(0).busquedaFiltrada())
-			}else{*/
+			}else{
 				mensaje = "Estas son las recetas mas consultadas"
-				//usuarioVegano.agregarBusqueda(busqueda1)
-				//usuarios.get(0).busquedaFiltrada()
-				//usuarioVegano.removerBusqueda(busqueda1)
+				usuarioVegano.agregarBusqueda(busqueda1)
+				usuarios.get(0).busquedaFiltrada()
+				usuarioVegano.removerBusqueda(busqueda1)
 				usuarioVegano.agregarBusqueda(busqueda2)
 				usuarios.get(0).busquedaFiltrada()
 				usuarioVegano.removerBusqueda(busqueda2)
@@ -109,11 +109,13 @@ class PantallaPrincipalAplicationModel extends TestRepositorio{
 			}
 		}
 		
-		def void agregarORemoverRecetaFavorita(){
+	}
+		
+	def void agregarORemoverRecetaFavorita(){
 			if(usuarios.get(0).recetasFavoritas2.contains(recetaSeleccionada)){
 				usuarios.get(0).eliminarRecetaFavorita(recetaSeleccionada)
 			} else{ 
 				usuarios.get(0).agregarRecetaFavorita(recetaSeleccionada)
-				}
-		}
+			}
+	}
 }

@@ -2,6 +2,7 @@ package pantallaPrincipal
 
 import ar.tp.dieta.Receta
 import detalleReceta.DetalleReceta
+import java.awt.Color
 import org.uqbar.arena.bindings.NotNullObservable
 import org.uqbar.arena.layout.HorizontalLayout
 import org.uqbar.arena.layout.VerticalLayout
@@ -41,7 +42,8 @@ class PantallaPrincipal extends MainWindow<PantallaPrincipalAplicationModel>{
 		
 		new Button(PanelBotonera) => [
 			caption = "Favorita"
-			onClick [ | modelObject.agregarORemoverRecetaFavorita]
+			onClick [ | modelObject.agregarORemoverRecetaFavorita
+			]
 			bindEnabled(elementSelected)
 		] 
 	}
@@ -58,6 +60,13 @@ class PantallaPrincipal extends MainWindow<PantallaPrincipalAplicationModel>{
 				fixedSize = 200
 				title = "Nombre"
 				bindContentsToProperty("nombreDeLaReceta")
+				bindBackground("nombreDeLaReceta").transformer =
+				[ String recibe | if (modelObject.usuarios.get(0).devolverReceta(recibe) != null) Color.RED 
+					else {if (modelObject.usuarios.get(0).recetario.busquedaReceta(recibe) != null) Color.GREEN
+					else { Color.BLUE
+						}
+					}
+				]
 			]
 			
 			new Column<Receta>(grilla) => [

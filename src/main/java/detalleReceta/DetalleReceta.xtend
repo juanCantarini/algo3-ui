@@ -94,7 +94,7 @@ class DetalleReceta extends TransactionalDialog<DetalleRecetaAplicationModel>{
 			new Label(panelProceso).bindValueToProperty("receta.procesoDePreparacion")			
 			new Button(panelProceso) => [
 				caption = "Volver"
-				//onClick [ | ]			
+				onClick [ | this.close()]			
 			]
 				super.executeTask()
 			
