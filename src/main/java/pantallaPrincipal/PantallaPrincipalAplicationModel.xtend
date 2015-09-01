@@ -2,11 +2,14 @@ package pantallaPrincipal
 
 import ar.tp.dieta.Accion2
 import ar.tp.dieta.Busqueda
+import ar.tp.dieta.Busqueda2
 import ar.tp.dieta.CondicionVegano
 import ar.tp.dieta.CondimentoBuilder
+import ar.tp.dieta.Filtro
 import ar.tp.dieta.FiltroPorGustos
 import ar.tp.dieta.FiltroPorIngredienteCaro
 import ar.tp.dieta.IngredienteBuilder
+import ar.tp.dieta.PosteriorBusquedaDiezPrimeros
 import ar.tp.dieta.PosteriorBusquedaOrdenadoCalorias
 import ar.tp.dieta.Receta
 import ar.tp.dieta.RecetaBuilder
@@ -24,6 +27,7 @@ import org.uqbar.commons.utils.Observable
 @Observable
 class PantallaPrincipalAplicationModel extends TestRepositorio{
 	
+	Busqueda2 busquedaUsuario = new Busqueda2
 	Receta recetaSeleccionada
 	Accion2 accion = new Accion2
 	List<Receta> recetas = new ArrayList<Receta>
@@ -39,7 +43,7 @@ class PantallaPrincipalAplicationModel extends TestRepositorio{
 	Busqueda busqueda3 = new Busqueda => [
 			agregarFiltro(new FiltroPorGustos)
 	]
-	
+	Filtro filtroPrimeras = new PosteriorBusquedaDiezPrimeros
 	
 	new(){
 		
@@ -68,8 +72,12 @@ class PantallaPrincipalAplicationModel extends TestRepositorio{
 		usuarioSinCondicion.recetario = recetario
 		usuarioCeliaco.recetario = recetario
 		usuarioDiabetico.recetario = recetario*/
-		//usuarioVegano.agregarRecetaFavorita(lomoMostaza)
-		//usuarioVegano.agregarRecetaFavorita(ensalada)
+		usuarioVegano.agregarRecetaFavorita(lomoMostaza)
+		usuarioVegano.agregarRecetaFavorita(ensalada)
+		usuarioVegano.agregarRecetaFavorita(gelatinaFrambuesa)
+		usuarioVegano.agregarRecetaFavorita(fideosConManteca)
+		usuarioVegano.agregarRecetaFavorita(arrozBlanco)
+		usuarioVegano.agregarRecetaFavorita(arrozConPollo)
 		usuarios.add(usuarioVegano)
 		/*usuarios.add(usuarioHipertenso)
 		usuarios.add(usuarioSinCondicion)
@@ -79,22 +87,16 @@ class PantallaPrincipalAplicationModel extends TestRepositorio{
 		usuarioVegano.comidasQueNoMeGustan.add("arroz")
 	}
 	
+	//////////////////  ENTRA A FAVORITO/////////////////////
+	
 	def getRecetas(){
-		
-		var int i = 0
-		var List<Receta> temporal = new ArrayList<Receta>
-		
 		if(!usuarios.get(0).recetasFavoritas2.isEmpty){	
-			/*while(i<10 && i<usuarios.get(0).recetasFavoritas2.size){
-				temporal.add(usuarios.get(0).recetasFavoritas2.get(i))
-			}
-			return temporal*/
 			mensaje = "Estas son sus recetas favoritas"
-			return(usuarios.get(0).recetasFavoritas2)
+			return(filtroPrimeras.aplicarFiltroUsuario(usuarios.get(0),usuarios.get(0).recetasFavoritas2))
 		}else{
 			if(!usuarios.get(0).misBusquedas.isEmpty){
 				mensaje = "Este es el resultado de su ultima consulta"
-				return(usuarios.get(0).busquedaFiltrada())
+				return(filtroPrimeras.aplicarFiltroUsuario(usuarios.get(0),usuarios.get(0).busquedaFiltrada))
 			}else{
 				mensaje = "Estas son las recetas mas consultadas"
 				usuarioVegano.agregarBusqueda(busqueda1)
@@ -105,7 +107,7 @@ class PantallaPrincipalAplicationModel extends TestRepositorio{
 				usuarioVegano.removerBusqueda(busqueda2)
 				usuarioVegano.agregarBusqueda(busqueda3)
 				usuarios.get(0).busquedaFiltrada()
-				return(usuarios.get(0).accion2.getRecetasFinales)
+				return(filtroPrimeras.aplicarFiltroUsuario(usuarios.get(0),usuarios.get(0).accion2.getRecetasFinales))
 			}
 		}
 		
