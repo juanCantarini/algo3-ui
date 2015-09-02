@@ -27,6 +27,7 @@ import org.uqbar.commons.utils.Observable
 @Observable
 class PantallaPrincipalAplicationModel extends TestRepositorio{
 	
+	Boolean busqueda = false
 	Busqueda2 busquedaUsuario = new Busqueda2
 	Receta recetaSeleccionada
 	Accion2 accion = new Accion2
@@ -90,27 +91,32 @@ class PantallaPrincipalAplicationModel extends TestRepositorio{
 	//////////////////  ENTRA A FAVORITO/////////////////////
 	
 	def getRecetas(){
-		if(!usuarios.get(0).recetasFavoritas2.isEmpty){	
-			mensaje = "Estas son sus recetas favoritas"
-			return(filtroPrimeras.aplicarFiltroUsuario(usuarios.get(0),usuarios.get(0).recetasFavoritas2))
-		}else{
-			if(!usuarios.get(0).misBusquedas.isEmpty){
-				mensaje = "Este es el resultado de su ultima consulta"
-				return(filtroPrimeras.aplicarFiltroUsuario(usuarios.get(0),usuarios.get(0).busquedaFiltrada))
+		if(!busqueda){
+			if(!usuarios.get(0).recetasFavoritas2.isEmpty){	
+				mensaje = "Estas son sus recetas favoritas"
+				return(filtroPrimeras.aplicarFiltroUsuario(usuarios.get(0),usuarios.get(0).recetasFavoritas2))
 			}else{
-				mensaje = "Estas son las recetas mas consultadas"
-				usuarioVegano.agregarBusqueda(busqueda1)
-				usuarios.get(0).busquedaFiltrada()
-				usuarioVegano.removerBusqueda(busqueda1)
-				usuarioVegano.agregarBusqueda(busqueda2)
-				usuarios.get(0).busquedaFiltrada()
-				usuarioVegano.removerBusqueda(busqueda2)
-				usuarioVegano.agregarBusqueda(busqueda3)
-				usuarios.get(0).busquedaFiltrada()
-				return(filtroPrimeras.aplicarFiltroUsuario(usuarios.get(0),usuarios.get(0).accion2.getRecetasFinales))
+				if(!usuarios.get(0).misBusquedas.isEmpty){
+					mensaje = "Este es el resultado de su ultima consulta"
+					return(filtroPrimeras.aplicarFiltroUsuario(usuarios.get(0),usuarios.get(0).busquedaFiltrada))
+				}else{
+					mensaje = "Estas son las recetas mas consultadas"
+					usuarioVegano.agregarBusqueda(busqueda1)
+					usuarios.get(0).busquedaFiltrada()
+					usuarioVegano.removerBusqueda(busqueda1)
+					usuarioVegano.agregarBusqueda(busqueda2)
+					usuarios.get(0).busquedaFiltrada()
+					usuarioVegano.removerBusqueda(busqueda2)
+					usuarioVegano.agregarBusqueda(busqueda3)
+					usuarios.get(0).busquedaFiltrada()
+					return(filtroPrimeras.aplicarFiltroUsuario(usuarios.get(0),usuarios.get(0).accion2.getRecetasFinales))
+				}
 			}
-		}
-		
+		}else{
+			recetas = null
+			recetas = filtrar
+			return recetas
+		}	
 	}
 		
 	def void agregarORemoverRecetaFavorita(){

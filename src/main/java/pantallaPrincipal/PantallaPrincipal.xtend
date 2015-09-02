@@ -1,5 +1,6 @@
 package pantallaPrincipal
 
+import ar.tp.dieta.Busqueda2
 import ar.tp.dieta.Receta
 import detalleReceta.DetalleReceta
 import java.awt.Color
@@ -16,6 +17,7 @@ import org.uqbar.arena.widgets.TextBox
 import org.uqbar.arena.widgets.tables.Column
 import org.uqbar.arena.widgets.tables.Table
 import org.uqbar.arena.windows.MainWindow
+import CopiarReceta.CopiarReceta
 
 class PantallaPrincipal extends MainWindow<PantallaPrincipalAplicationModel>{
 	
@@ -79,11 +81,14 @@ class PantallaPrincipal extends MainWindow<PantallaPrincipalAplicationModel>{
 		
 		new Button(PanelBotoneraBusqueda) => [
 			caption = "Buscar"
-			onClick [ | modelObject.filtrar]
+			onClick [ | modelObject.filtrar
+				modelObject.getRecetas
+			]
 		]
 		
 		new Button(PanelBotoneraBusqueda) => [
 			caption = "Volver"
+			onClick [ | modelObject.busquedaUsuario = new Busqueda2]
 		]
 				
 		new Label(mainPanel).bindValueToProperty("mensaje")// = "Estas fueron sus ultimas consultas"
@@ -102,6 +107,12 @@ class PantallaPrincipal extends MainWindow<PantallaPrincipalAplicationModel>{
 			]
 			bindEnabled(elementSelected)
 		] 
+		
+		new Button(PanelBotonera) => [
+			caption = "Copiar receta"
+			onClick [ | this.copiar()]
+			bindEnabled(elementSelected)
+		]
 	}
 	
 	
@@ -147,4 +158,8 @@ class PantallaPrincipal extends MainWindow<PantallaPrincipalAplicationModel>{
 		def void verReceta() {
 			(new DetalleReceta(this, modelObject.recetaSeleccionada, modelObject.usuarios.get(0))).open
 	}
+	
+		def void copiar() {
+			(new CopiarReceta(this, modelObject.recetaSeleccionada, modelObject.usuarios.get(0))).open
+		}
 }
