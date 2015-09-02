@@ -122,6 +122,6 @@ class PantallaPrincipalAplicationModel extends TestRepositorio{
 	}
 	
 	def filtrar(){
-		busquedaUsuario.filtrar(usuarios.get(0).recetasQuePuedoVer)
+		busquedaUsuario.filtrar(usuarios.get(0),usuarios.get(0).recetasQuePuedoVer)
 	}
 }
