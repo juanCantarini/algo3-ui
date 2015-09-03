@@ -1,5 +1,6 @@
 package pantallaPrincipal
 
+import CopiarReceta.CopiarReceta
 import ar.tp.dieta.Busqueda2
 import ar.tp.dieta.Receta
 import detalleReceta.DetalleReceta
@@ -17,7 +18,6 @@ import org.uqbar.arena.widgets.TextBox
 import org.uqbar.arena.widgets.tables.Column
 import org.uqbar.arena.widgets.tables.Table
 import org.uqbar.arena.windows.MainWindow
-import CopiarReceta.CopiarReceta
 
 class PantallaPrincipal extends MainWindow<PantallaPrincipalAplicationModel>{
 	
@@ -64,7 +64,7 @@ class PantallaPrincipal extends MainWindow<PantallaPrincipalAplicationModel>{
 		new Label(PanelDerecho).text = "Temporada"
 		new Selector<String> (PanelDerecho)=> [
 			bindItemsToProperty("busquedaUsuario.temporadas")
-			bindValueToProperty("busquedaUsuario.temporadas")
+			bindValueToProperty("busquedaUsuario.temporada")
 		]
 		
 		val PanelFiltroUsuario = new Panel(PanelDerecho)
@@ -81,8 +81,9 @@ class PantallaPrincipal extends MainWindow<PantallaPrincipalAplicationModel>{
 		
 		new Button(PanelBotoneraBusqueda) => [
 			caption = "Buscar"
-			onClick [ | modelObject.filtrar
-				modelObject.getRecetas
+			onClick [ | modelObject.refrescar
+				modelObject.busquedaUsuario = new Busqueda2
+				modelObject.mensaje = "Este es el resultado de su consulta"
 			]
 		]
 		
@@ -127,39 +128,46 @@ class PantallaPrincipal extends MainWindow<PantallaPrincipalAplicationModel>{
 				fixedSize = 200
 				title = "Nombre"
 				bindContentsToProperty("nombreDeLaReceta")
-				bindBackground("nombreDeLaReceta").transformer =
-				[ String recibe | if (modelObject.usuarios.get(0).devolverReceta(recibe) != null) Color.RED 
-					else {if (modelObject.usuarios.get(0).recetario.busquedaReceta(recibe) != null) Color.GREEN
-					else { Color.BLUE
-						}
-					}
-				]
+				colorear(it)
 			]
 			
 			new Column<Receta>(grilla) => [
 				fixedSize = 200
 				title = "Calorias"
 				bindContentsToProperty("calorias")
+				colorear(it)
 			]
 			
 			new Column<Receta>(grilla) => [
 				fixedSize = 200
 				title = "Dificultad"
 				bindContentsToProperty("dificultadDePreparacion")
+				colorear(it)
 			]
 			
 			new Column<Receta>(grilla) => [
 				fixedSize = 200
 				title = "Temporada"
 				bindContentsToProperty("temporadaALaQueCorresponde")
+				colorear(it)
+			]
+		}
+		
+		def colorear(Column<Receta> it) {
+			bindBackground("devolverme").transformer =
+			[ Receta recibe | if (modelObject.usuario.misRecetas.contains(recibe)) Color.RED 
+				else {if (modelObject.usuario.recetario.recetas.contains(recibe)) Color.GREEN
+				else { Color.BLUE
+					}
+				}
 			]
 		}
 		
 		def void verReceta() {
-			(new DetalleReceta(this, modelObject.recetaSeleccionada, modelObject.usuarios.get(0))).open
+			(new DetalleReceta(this, modelObject.recetaSeleccionada, modelObject.usuario)).open
 	}
 	
 		def void copiar() {
-			(new CopiarReceta(this, modelObject.recetaSeleccionada, modelObject.usuarios.get(0))).open
+			(new CopiarReceta(this, modelObject.recetaSeleccionada, modelObject.usuario)).open
 		}
 }
