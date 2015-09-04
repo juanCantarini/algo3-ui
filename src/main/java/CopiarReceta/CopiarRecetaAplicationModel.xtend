@@ -27,17 +27,19 @@ class CopiarRecetaAplicationModel {
 	
 	def void copiar(){
 		
+		
 		if(!usuario.misRecetas.contains(receta)){
 			var recetaTemporal = new Receta
 			val elementosRecetaTemporal = new ArrayList<ElementoDeReceta>
 			
-			recetaTemporal = new RecetaBuilder(nombreCopia).calorias(receta.calorias).autor(usuario.nombre).dificultad(receta.dificultadDePreparacion).procesoPreparacion(receta.procesoDePreparacion).temporada(receta.temporadaALaQueCorresponde).build()
 			receta.elementosDeReceta.forEach[ elemento | if(elemento.getClass().equals(new Ingrediente)){
 																elementosRecetaTemporal.add(new IngredienteBuilder(elemento.nombre).cantidad(elemento.cantidad).build())
 																
 															}else{
 																elementosRecetaTemporal.add(new CondimentoBuilder(elemento.nombre).cantidad(elemento.cantidad).build())
 															}]
+			
+			recetaTemporal = new RecetaBuilder(nombreCopia).calorias(receta.calorias).autor(usuario.nombre).dificultad(receta.dificultadDePreparacion).procesoPreparacion(receta.procesoDePreparacion).temporada(receta.temporadaALaQueCorresponde).build()
 			recetaTemporal.elementosDeReceta.addAll(elementosRecetaTemporal)
 			usuario.misRecetas.add(recetaTemporal)	
 		}

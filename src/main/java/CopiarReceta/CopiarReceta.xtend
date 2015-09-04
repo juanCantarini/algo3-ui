@@ -40,10 +40,11 @@ class CopiarReceta extends TransactionalDialog<CopiarRecetaAplicationModel>{
 		
 		new Button(mainPanel) => [
 			caption = "Copiar"
-			onClick [ | modelObject.copiar()]
+			onClick [ | modelObject.copiar()
+				super.executeTask()
+				this.close()
+			]
 		]
-		
-		super.executeTask()
 		
 	}
 }
