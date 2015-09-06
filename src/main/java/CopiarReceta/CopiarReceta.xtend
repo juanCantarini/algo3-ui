@@ -35,7 +35,6 @@ class CopiarReceta extends TransactionalDialog<CopiarRecetaAplicationModel>{
 		new Label(panelNombreCopia).text = "Nombre de copia:  "
 		new TextBox(panelNombreCopia) => [
 			bindValueToProperty("nombreCopia")
-			//como poner un valor default
 		]
 		
 		new Button(mainPanel) => [

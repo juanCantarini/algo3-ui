@@ -17,6 +17,8 @@ import org.uqbar.arena.widgets.Label
 import org.uqbar.arena.widgets.Panel
 import org.uqbar.arena.widgets.Selector
 import org.uqbar.arena.widgets.TextBox
+import org.uqbar.arena.widgets.TextFilter
+import org.uqbar.arena.widgets.TextInputEvent
 import org.uqbar.arena.widgets.tables.Column
 import org.uqbar.arena.widgets.tables.Table
 import org.uqbar.arena.windows.WindowOwner
@@ -44,14 +46,20 @@ class PantallaPrincipal extends TransactionalDialog<PantallaPrincipalAplicationM
 		val PanelDerecho = new Panel(PanelConsulta)
 		
 		new Label(PanelIzq).text = "Nombre"
-		new TextBox(PanelIzq).bindValueToProperty("busquedaUsuario.nombre")
+		new TextBox(PanelIzq) => [
+			bindValueToProperty("busquedaUsuario.nombre")
+			withFilter(new LetrasFilter)
+			]
 		new Label(PanelIzq).text = "Dificultad"
 		new Selector<String>(PanelIzq) => [
 			bindItemsToProperty("busquedaUsuario.dificultades")
 			bindValueToProperty("busquedaUsuario.dificultad")
 		]
 		new Label(PanelIzq).text = "Que contenga ingrediente"
-		new TextBox(PanelIzq).bindValueToProperty("busquedaUsuario.ingrediente")
+		new TextBox(PanelIzq) => [
+			bindValueToProperty("busquedaUsuario.ingrediente")
+			withFilter(new LetrasFilter)
+			]
 		
 		new Label(PanelDerecho).text = "Calorias"
 		
@@ -59,9 +67,15 @@ class PantallaPrincipal extends TransactionalDialog<PantallaPrincipalAplicationM
 		PanelCalorias.layout = new HorizontalLayout
 		
 		new Label(PanelCalorias).text = "De "
-		new TextBox(PanelCalorias).bindValueToProperty("busquedaUsuario.caloriasMinimas")
+		new TextBox(PanelCalorias) => [
+			bindValueToProperty("busquedaUsuario.caloriasMinimas")
+			withFilter(new NumeroFilter)
+			]
 		new Label(PanelCalorias).text = " a "
-		new TextBox(PanelCalorias).bindValueToProperty("busquedaUsuario.caloriasMaximas")
+		new TextBox(PanelCalorias) => [
+			bindValueToProperty("busquedaUsuario.caloriasMaximas")
+			withFilter(new NumeroFilter)
+			]
 		
 		new Label(PanelDerecho).text = "Temporada"
 		new Selector<String> (PanelDerecho)=> [
@@ -169,10 +183,25 @@ class PantallaPrincipal extends TransactionalDialog<PantallaPrincipalAplicationM
 		
 		def void verReceta() {
 			(new DetalleReceta(this, modelObject.recetaSeleccionada, modelObject.usuario)).open
-	}
+		}
 	
 		def void copiar() {
 			(new CopiarReceta(this, modelObject.recetaSeleccionada, modelObject.usuario)).open
 		}
 		
 }
+
+class NumeroFilter implements TextFilter {
+	
+	override accept(TextInputEvent event) {
+		event.potentialTextResult.matches("[0-9,.]*")
+	}		
+}
+
+class LetrasFilter implements TextFilter {
+	override accept(TextInputEvent event) {
+		event.potentialTextResult.matches("[a-zA-Z ]*")
+	}		
+}
+
+

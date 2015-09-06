@@ -9,6 +9,7 @@ import ar.tp.dieta.RecetaBuilder
 import ar.tp.dieta.Usuario
 import java.util.ArrayList
 import org.eclipse.xtend.lib.annotations.Accessors
+import org.uqbar.commons.model.UserException
 import org.uqbar.commons.utils.Observable
 
 @Accessors
@@ -27,8 +28,7 @@ class CopiarRecetaAplicationModel {
 	
 	def void copiar(){
 		
-		
-		if(!usuario.misRecetas.contains(receta)){
+		if(!usuario.repitoReceta(receta.nombreDeLaReceta)){
 			var recetaTemporal = new Receta
 			val elementosRecetaTemporal = new ArrayList<ElementoDeReceta>
 			
@@ -42,6 +42,8 @@ class CopiarRecetaAplicationModel {
 			recetaTemporal = new RecetaBuilder(nombreCopia).calorias(receta.calorias).autor(usuario.nombre).dificultad(receta.dificultadDePreparacion).procesoPreparacion(receta.procesoDePreparacion).temporada(receta.temporadaALaQueCorresponde).build()
 			recetaTemporal.elementosDeReceta.addAll(elementosRecetaTemporal)
 			usuario.misRecetas.add(recetaTemporal)	
+		}else{
+			throw new UserException("Ya tiene una receta con ese nombre")
 		}
 	}				
 }

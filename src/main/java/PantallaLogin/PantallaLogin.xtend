@@ -7,6 +7,7 @@ import org.uqbar.arena.widgets.Label
 import org.uqbar.arena.widgets.Panel
 import org.uqbar.arena.widgets.TextBox
 import org.uqbar.arena.windows.MainWindow
+import org.uqbar.ui.view.ErrorViewer
 import pantallaPrincipal.PantallaPrincipal
 
 class PantallaLogin extends MainWindow<PantallaLoginAplicationModel>{
@@ -45,5 +46,4 @@ class PantallaLogin extends MainWindow<PantallaLoginAplicationModel>{
 		]
 		
 	}
-	
 }
