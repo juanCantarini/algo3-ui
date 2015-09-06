@@ -3,8 +3,10 @@ package pantallaPrincipal
 import CopiarReceta.CopiarReceta
 import ar.tp.dieta.Busqueda2
 import ar.tp.dieta.Receta
+import ar.tp.dieta.Usuario
 import detalleReceta.DetalleReceta
 import java.awt.Color
+import org.uqbar.arena.aop.windows.TransactionalDialog
 import org.uqbar.arena.bindings.NotNullObservable
 import org.uqbar.arena.layout.ColumnLayout
 import org.uqbar.arena.layout.HorizontalLayout
@@ -17,19 +19,19 @@ import org.uqbar.arena.widgets.Selector
 import org.uqbar.arena.widgets.TextBox
 import org.uqbar.arena.widgets.tables.Column
 import org.uqbar.arena.widgets.tables.Table
-import org.uqbar.arena.windows.MainWindow
+import org.uqbar.arena.windows.WindowOwner
 
-class PantallaPrincipal extends MainWindow<PantallaPrincipalAplicationModel>{
+class PantallaPrincipal extends TransactionalDialog<PantallaPrincipalAplicationModel>{
 	
-	new(){
-		super (new PantallaPrincipalAplicationModel)
+	new(WindowOwner owner,Usuario usuario){
+		super (owner, new PantallaPrincipalAplicationModel(usuario))
 	}
 	
-	def static void main(String[] args) {
-			new PantallaPrincipal().startApplication
-	}
+//	def static void main(String[] args) {
+//			new PantallaPrincipal().startApplication
+//	}
 	
-	override createContents(Panel mainPanel){
+	override protected createFormPanel(Panel mainPanel) {
 		
 		val elementSelected = new NotNullObservable("recetaSeleccionada")
 		
@@ -89,7 +91,9 @@ class PantallaPrincipal extends MainWindow<PantallaPrincipalAplicationModel>{
 		
 		new Button(PanelBotoneraBusqueda) => [
 			caption = "Volver"
-			onClick [ | modelObject.busquedaUsuario = new Busqueda2]
+			onClick [ | this.close()
+				super.executeTask
+			]
 		]
 				
 		new Label(mainPanel).bindValueToProperty("mensaje")// = "Estas fueron sus ultimas consultas"
@@ -170,4 +174,5 @@ class PantallaPrincipal extends MainWindow<PantallaPrincipalAplicationModel>{
 		def void copiar() {
 			(new CopiarReceta(this, modelObject.recetaSeleccionada, modelObject.usuario)).open
 		}
+		
 }
