@@ -6,21 +6,21 @@ import org.uqbar.arena.widgets.Button
 import org.uqbar.arena.widgets.Label
 import org.uqbar.arena.widgets.Panel
 import org.uqbar.arena.widgets.TextBox
-import org.uqbar.arena.windows.MainWindow
-import org.uqbar.ui.view.ErrorViewer
+import org.uqbar.arena.windows.SimpleWindow
+import org.uqbar.arena.windows.WindowOwner
 import pantallaPrincipal.PantallaPrincipal
 
-class PantallaLogin extends MainWindow<PantallaLoginAplicationModel>{
+class PantallaLogin extends SimpleWindow<PantallaLoginAplicationModel>{
 	
-	new(){
-		super (new PantallaLoginAplicationModel)
+	new(WindowOwner parent){
+		super (parent, new PantallaLoginAplicationModel)
 	}
 	
-	def static void main(String[] args) {
-			new PantallaLogin().startApplication()
-	}
+//	def static void main(String[] args) {
+//			new PantallaLogin().startApplication()
+//	}
 	
-	override createContents(Panel mainPanel){
+	override protected createFormPanel(Panel mainPanel) {
 		
 		title = "Login"
 		mainPanel.layout = new VerticalLayout
@@ -46,4 +46,10 @@ class PantallaLogin extends MainWindow<PantallaLoginAplicationModel>{
 		]
 		
 	}
+	
+	override protected addActions(Panel actionsPanel) {
+	}
 }
+	
+	
+	

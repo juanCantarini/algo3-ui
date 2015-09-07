@@ -4,7 +4,6 @@ import ar.tp.dieta.RepositorioUsuarios
 import ar.tp.dieta.Usuario
 import org.eclipse.xtend.lib.annotations.Accessors
 import org.uqbar.commons.utils.Observable
-import pantallaPrincipal.PantallaPrincipal
 
 @Accessors
 @Observable

@@ -3,15 +3,12 @@ package pantallaPrincipal
 import ar.tp.dieta.Accion2
 import ar.tp.dieta.Busqueda
 import ar.tp.dieta.Busqueda2
-import ar.tp.dieta.CondimentoBuilder
 import ar.tp.dieta.Filtro
 import ar.tp.dieta.FiltroPorGustos
 import ar.tp.dieta.FiltroPorIngredienteCaro
-import ar.tp.dieta.IngredienteBuilder
 import ar.tp.dieta.PosteriorBusquedaDiezPrimeros
 import ar.tp.dieta.PosteriorBusquedaOrdenadoCalorias
 import ar.tp.dieta.Receta
-import ar.tp.dieta.RecetaBuilder
 import ar.tp.dieta.RecetarioPublico
 import ar.tp.dieta.RutinaActiva
 import ar.tp.dieta.TestRepositorio
@@ -105,6 +102,7 @@ class PantallaPrincipalAplicationModel extends TestRepositorio{
 	def refrescar() {
 		recetas.removeAll
 		recetas = filtrar()
+		usuario.accion2.seRealizoBusqueda(recetas)
 	}
 	
 	//////////////////  ENTRA A FAVORITO/////////////////////
