@@ -19,6 +19,7 @@ class DetalleReceta extends TransactionalDialog<DetalleRecetaAplicationModel>{
 		
 		new(WindowOwner owner, Receta receta, Usuario usuario) {
 			super(owner, new DetalleRecetaAplicationModel(receta,usuario))
+			title = "Consulta de recetas"
 		}
 		
 		def defaultTitle() {
