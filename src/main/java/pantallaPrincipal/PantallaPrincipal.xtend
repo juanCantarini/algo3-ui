@@ -99,7 +99,7 @@ class PantallaPrincipal extends TransactionalDialog<PantallaPrincipalAplicationM
 		new Button(PanelBotoneraBusqueda) => [
 			caption = "Buscar"
 			onClick [ | modelObject.refrescar
-				modelObject.busquedaUsuario = new Busqueda2
+//				modelObject.busquedaUsuario = new Busqueda2
 				modelObject.mensaje = "Este es el resultado de su consulta"
 			]
 		]

@@ -29,18 +29,9 @@ class CopiarRecetaAplicationModel {
 	def void copiar(){
 		
 		if(!usuario.repitoReceta(receta.nombreDeLaReceta)){
-			var recetaTemporal = new Receta
-			val elementosRecetaTemporal = new ArrayList<ElementoDeReceta>
-			
-			receta.elementosDeReceta.forEach[ elemento | if(elemento.getClass().equals(new Ingrediente)){
-																elementosRecetaTemporal.add(new IngredienteBuilder(elemento.nombre).cantidad(elemento.cantidad).build())
-																
-															}else{
-																elementosRecetaTemporal.add(new CondimentoBuilder(elemento.nombre).cantidad(elemento.cantidad).build())
-															}]
-			
-			recetaTemporal = new RecetaBuilder(nombreCopia).calorias(receta.calorias).autor(usuario.nombre).dificultad(receta.dificultadDePreparacion).procesoPreparacion(receta.procesoDePreparacion).temporada(receta.temporadaALaQueCorresponde).build()
-			recetaTemporal.elementosDeReceta.addAll(elementosRecetaTemporal)
+			val recetaTemporal = new RecetaBuilder(nombreCopia).calorias(receta.calorias).autor(usuario.nombre).dificultad(receta.dificultadDePreparacion).procesoPreparacion(receta.procesoDePreparacion).temporada(receta.temporadaALaQueCorresponde).build()
+			receta.ingredientes.forEach [ ingrediente | recetaTemporal.ingredientes.add(new IngredienteBuilder(ingrediente.nombre).cantidad(ingrediente.cantidad).build())]
+			receta.condimentos.forEach [ condimento | recetaTemporal.condimentos.add(new CondimentoBuilder(condimento.nombre).cantidad(condimento.cantidad).build())]
 			usuario.misRecetas.add(recetaTemporal)	
 		}else{
 			throw new UserException("Ya tiene una receta con ese nombre")
