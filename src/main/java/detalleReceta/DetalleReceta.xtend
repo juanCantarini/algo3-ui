@@ -19,18 +19,14 @@ class DetalleReceta extends TransactionalDialog<DetalleRecetaAplicationModel>{
 		
 		new(WindowOwner owner, Receta receta, Usuario usuario) {
 			super(owner, new DetalleRecetaAplicationModel(receta,usuario))
-			title = "Consulta de recetas"
-		}
-		
-		def defaultTitle() {
-			"Detalle receta"
+			
 		}
 		
 		override createFormPanel(Panel mainPanel) {
 			
 			mainPanel.layout = new VerticalLayout
 			//val Usuario usuario = construirUsuario()
-			
+			title = "Consulta de recetas"
 			
 			//PANELES
 			

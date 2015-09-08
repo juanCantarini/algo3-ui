@@ -17,13 +17,10 @@ class CopiarReceta extends TransactionalDialog<CopiarRecetaAplicationModel>{
 		super(owner, new CopiarRecetaAplicationModel(receta,usuario))
 	}
 	
-	def defaultTitle() {
-			"Copiar receta"
-	}
-		
 	override createFormPanel(Panel mainPanel) {
 			
 		mainPanel.layout = new VerticalLayout
+		title = "Copiar receta"
 		
 		val panelNombre = new Panel(mainPanel)
 		panelNombre.layout = new HorizontalLayout
