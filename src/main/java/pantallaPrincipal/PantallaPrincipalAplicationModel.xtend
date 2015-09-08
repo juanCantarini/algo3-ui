@@ -89,9 +89,9 @@ class PantallaPrincipalAplicationModel extends TestRepositorio{
 				mensaje = "Estas son sus recetas favoritas"
 				return(filtroPrimeras.aplicarFiltroUsuario(usuario,usuario.recetasFavoritas2))
 			}else{
-				if(!usuario.misBusquedas.isEmpty){
+				if(!usuario.recetasBuscadas.isEmpty){
 					mensaje = "Este es el resultado de su ultima consulta"
-					return(filtroPrimeras.aplicarFiltroUsuario(usuario,usuario.busquedaFiltrada))
+					return(filtroPrimeras.aplicarFiltroUsuario(usuario,usuario.recetasBuscadas))
 				}else{
 					mensaje = "Estas son las recetas mas consultadas"
 					return(filtroPrimeras.aplicarFiltroUsuario(usuario,usuario.accion2.getRecetasFinales))
@@ -103,6 +103,7 @@ class PantallaPrincipalAplicationModel extends TestRepositorio{
 		recetas.removeAll
 		recetas = filtrar()
 		usuario.accion2.seRealizoBusqueda(recetas)
+		usuario.agregarRecetasBuscadas(recetas)
 	}
 	
 	//////////////////  ENTRA A FAVORITO/////////////////////

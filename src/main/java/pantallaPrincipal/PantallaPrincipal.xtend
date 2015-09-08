@@ -6,6 +6,7 @@ import ar.tp.dieta.Receta
 import ar.tp.dieta.Usuario
 import detalleReceta.DetalleReceta
 import java.awt.Color
+import java.util.ArrayList
 import org.uqbar.arena.aop.windows.TransactionalDialog
 import org.uqbar.arena.bindings.NotNullObservable
 import org.uqbar.arena.layout.ColumnLayout
@@ -182,6 +183,10 @@ class PantallaPrincipal extends TransactionalDialog<PantallaPrincipalAplicationM
 		}
 		
 		def void verReceta() {
+			var temporal = new ArrayList<Receta>
+			temporal.add(modelObject.recetaSeleccionada)
+			modelObject.usuario.accion2.seRealizoBusqueda(temporal)
+			modelObject.usuario.agregarRecetasBuscadas(temporal)
 			(new DetalleReceta(this, modelObject.recetaSeleccionada, modelObject.usuario)).open
 		}
 	
