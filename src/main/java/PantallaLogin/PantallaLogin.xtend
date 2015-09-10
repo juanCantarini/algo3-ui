@@ -16,10 +16,6 @@ class PantallaLogin extends SimpleWindow<PantallaLoginAplicationModel>{
 		super (parent, new PantallaLoginAplicationModel)
 	}
 	
-//	def static void main(String[] args) {
-//			new PantallaLogin().startApplication()
-//	}
-	
 	override protected createFormPanel(Panel mainPanel) {
 		
 		title = "Login"

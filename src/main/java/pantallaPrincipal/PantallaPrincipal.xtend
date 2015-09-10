@@ -1,7 +1,6 @@
 package pantallaPrincipal
 
 import CopiarReceta.CopiarReceta
-import ar.tp.dieta.Busqueda2
 import ar.tp.dieta.Receta
 import ar.tp.dieta.Usuario
 import detalleReceta.DetalleReceta
@@ -23,16 +22,13 @@ import org.uqbar.arena.widgets.TextInputEvent
 import org.uqbar.arena.widgets.tables.Column
 import org.uqbar.arena.widgets.tables.Table
 import org.uqbar.arena.windows.WindowOwner
+import ar.tp.dieta.CriterioBusqueda
 
 class PantallaPrincipal extends TransactionalDialog<PantallaPrincipalAplicationModel>{
 	
 	new(WindowOwner owner,Usuario usuario){
 		super (owner, new PantallaPrincipalAplicationModel(usuario))
 	}
-	
-//	def static void main(String[] args) {
-//			new PantallaPrincipal().startApplication
-//	}
 	
 	override protected createFormPanel(Panel mainPanel) {
 		
@@ -98,8 +94,10 @@ class PantallaPrincipal extends TransactionalDialog<PantallaPrincipalAplicationM
 		
 		new Button(PanelBotoneraBusqueda) => [
 			caption = "Buscar"
-			onClick [ | modelObject.refrescar
-				modelObject.busquedaUsuario = new Busqueda2
+			onClick [ | 
+				modelObject.limpiarRecetas
+				modelObject.filtrar
+				modelObject.busquedaUsuario = new CriterioBusqueda
 				modelObject.mensaje = "Este es el resultado de su consulta"
 			]
 		]
@@ -185,7 +183,7 @@ class PantallaPrincipal extends TransactionalDialog<PantallaPrincipalAplicationM
 		def void verReceta() {
 			var temporal = new ArrayList<Receta>
 			temporal.add(modelObject.recetaSeleccionada)
-			modelObject.usuario.accion2.seRealizoBusqueda(temporal)
+			modelObject.usuario.getObserverConsulta.seRealizoBusqueda(temporal)
 			modelObject.usuario.agregarRecetasBuscadas(temporal)
 			(new DetalleReceta(this, modelObject.recetaSeleccionada, modelObject.usuario)).open
 		}

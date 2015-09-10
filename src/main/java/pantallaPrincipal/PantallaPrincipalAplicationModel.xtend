@@ -1,8 +1,6 @@
 package pantallaPrincipal
 
-import ar.tp.dieta.Accion2
 import ar.tp.dieta.Busqueda
-import ar.tp.dieta.Busqueda2
 import ar.tp.dieta.Filtro
 import ar.tp.dieta.FiltroPorGustos
 import ar.tp.dieta.FiltroPorIngredienteCaro
@@ -17,14 +15,16 @@ import java.util.ArrayList
 import java.util.List
 import org.eclipse.xtend.lib.annotations.Accessors
 import org.uqbar.commons.utils.Observable
+import ar.tp.dieta.ContadorConsultas
+import ar.tp.dieta.CriterioBusqueda
 
 @Accessors
 @Observable
 class PantallaPrincipalAplicationModel extends TestRepositorio{
 	
-	Busqueda2 busquedaUsuario = new Busqueda2
+	CriterioBusqueda busquedaUsuario = new CriterioBusqueda
 	Receta recetaSeleccionada
-	Accion2 accion = new Accion2
+	ContadorConsultas accion = new ContadorConsultas
 	List<Receta> recetas = new ArrayList<Receta>
 	Usuario usuario
 	RecetarioPublico recetario = new RecetarioPublico
@@ -61,16 +61,13 @@ class PantallaPrincipalAplicationModel extends TestRepositorio{
 					return(filtroPrimeras.aplicarFiltroUsuario(usuario,usuario.recetasBuscadas))
 				}else{
 					mensaje = "Estas son las recetas mas consultadas"
-					return(filtroPrimeras.aplicarFiltroUsuario(usuario,usuario.accion2.getRecetasFinales))
+					return(filtroPrimeras.aplicarFiltroUsuario(usuario,usuario.getObserverConsulta.getRecetasFinales))
 				}
 		}
 	}
 	
-	def refrescar() {
+	def limpiarRecetas() {
 		recetas.removeAll
-		recetas = filtrar()
-		usuario.accion2.seRealizoBusqueda(recetas)
-		usuario.agregarRecetasBuscadas(recetas)
 	}
 	
 	//////////////////  ENTRA A FAVORITO/////////////////////
@@ -84,6 +81,8 @@ class PantallaPrincipalAplicationModel extends TestRepositorio{
 	}
 	
 	def filtrar(){
-		busquedaUsuario.filtrar(usuario,usuario.recetasQuePuedoVer)
+		recetas = busquedaUsuario.filtrar(usuario,usuario.recetasQuePuedoVer)
+		usuario.getObserverConsulta.seRealizoBusqueda(recetas)
+		usuario.agregarRecetasBuscadas(recetas)
 	}
 }

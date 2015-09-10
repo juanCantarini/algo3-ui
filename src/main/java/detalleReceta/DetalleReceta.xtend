@@ -25,7 +25,6 @@ class DetalleReceta extends TransactionalDialog<DetalleRecetaAplicationModel>{
 		override createFormPanel(Panel mainPanel) {
 			
 			mainPanel.layout = new VerticalLayout
-			//val Usuario usuario = construirUsuario()
 			title = "Consulta de recetas"
 			
 			//PANELES
@@ -113,20 +112,5 @@ class DetalleReceta extends TransactionalDialog<DetalleRecetaAplicationModel>{
 				bindContentsToProperty("cantidad")
 			]
 		}
-		
-		/*def Usuario construirUsuario(){
-			val Usuario usuario= new UsuarioBuilder("Daniel").peso(70.4).altura(1.83).fechaNacimiento(1992, 6, 4).sexo("M").rutina(new RutinaActiva => [
-			setTiempoDeEjercicio(90)]).preferencia("carne").preferencia("pescado").email("usuariosincondicion@mail.com").build()
-			val recetarioPublico = new RecetarioPublico
-			recetarioPublico.recetas.add(modelObject)
-			usuario.recetario = recetarioPublico
-			return usuario
-		}*/
-		
-		/*def static void main(String[] args) {
-			new DetalleReceta().startApplication
-		}*/
-		
-	
 		
 }

@@ -25,11 +25,4 @@ class DetalleRecetaAplicationModel {
 		false
 	}
 	
-//	def setFavorita(boolean favorita){
-//		if(favorita) {
-//			usuario.agregarRecetaFavorita(receta.nombreDeLaReceta)
-//		} else {
-//			usuario.
-//		}
-//	}
 }
